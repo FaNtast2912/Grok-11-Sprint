@@ -106,10 +106,10 @@ func fetchProfile(with token: String, completion: @escaping (Result<Profile, any
 ## Полезные ресурсы
 - **[Официальная документация](https://developer.apple.com/documentation/devicemanagement/implementing-the-simple-authentication-user-enrollment-flow)**.
 - Материалы по OAuth 2.0
-  **[статья](https://habr.com/ru/companies/vk/articles/115163/)**.
+  **[статья](https://habr.com/ru/companies/vk/articles/115163/)**
    и **[туториал](https://www.kodeco.com/243-oauth-2-0-with-swift-tutorial/page/3?page=3#toc-anchor-014)**.
 - Статьи по многопоточности
-  **[статья раз](https://habr.com/ru/articles/320152/)**.
+  **[статья раз](https://habr.com/ru/articles/320152/)**,
   **[статья два](https://habr.com/ru/articles/578752/)**.
 - Туториалы по работе с сетью
   **[туториал](https://www.kodeco.com/28540615-grand-central-dispatch-tutorial-for-swift-5-part-1-2)**.
