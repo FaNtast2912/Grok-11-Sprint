@@ -33,6 +33,50 @@ request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 - Корректная работа с многопоточностью
 - Обработка result и потенциальных ошибок
 - Правильное моделирование данных для парсинга
+```swift
+func fetchProfile(with token: String, completion: @escaping (Result<Profile, any Error>) -> Void) {
+        
+        assert(Thread.isMainThread)
+        
+        if task != nil {
+            if lastToken != token {
+                task?.cancel()
+            } else {
+                completion(.failure(AuthServiceError.invalidRequest))
+                return
+            }
+        } else {
+            if lastToken == token {
+                completion(.failure(AuthServiceError.invalidRequest))
+                return
+            }
+        }
+        
+        lastToken = token
+        
+        guard let request = makeProfileResultRequest() else {
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+        
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResponseResult, Error>) in
+            guard let self else { preconditionFailure("self is unavalible") }
+            switch result {
+            case .success(let profileResponseResult):
+                let profile = Profile(from: profileResponseResult)
+                self.profile = profile
+                completion(.success(profile))
+            case .failure(let error):
+                print("ProfileService Error - \(error)")
+                completion(.failure(error))
+            }
+            self.task = nil
+            self.lastToken = nil
+        }
+        self.task = task
+        task.resume()
+    }
+```
 
 ## Советы по разработке
 
